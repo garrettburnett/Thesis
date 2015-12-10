@@ -123,7 +123,7 @@ void ofApp::setupSound(){
     
     
     for(int i = 0; i<numberOfParticles;i++){
-        file[i].noteOn(i*300, 1);
+        clar[i].noteOn(i*300, 1);
     }
 }
 
@@ -248,20 +248,29 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 void ofApp::audioOut(float * output, int bufferSize, int nChannels){
     
-    for(int i = 0; i < bufferSize; i++) {
-        for(int j = 0; j < numberOfParticles; j++) {
-            input[j] = (file[j].tick()/numberOfParticles)*0.3;
+    for(int i = 0; i < bufferSize; i++)
+    {
+        
+        for(int j = 0; j < numberOfParticles; j++)
+        {
+            input[j] = (clar[j].tick()/numberOfParticles)*0.3;
             encoder->setRadius(j, hoaCoord->getRadius(j));
             encoder->setAzimuth(j, hoaCoord->getAzimuth(j));
             encoder->setElevation(j, hoaCoord->getElevation(j));
         }
+        
         encoder->process(input,harmonic);
         for (int j = 0; j < (hoaOrder+1)*(hoaOrder+1); j++)
+        {
             harmonicMatrix[j][i] = harmonicsBuffer[j];
+        }
     }
+    
     decoder->processBlock(const_cast<const float **>(harmonicMatrix), outputMatrix);
     
-    for (int i = 0; i < bufferSize; i++) {
+    for (int i = 0; i < bufferSize; i++)
+        
+    {
         output[i*nChannels] = outputMatrix[0][i];
         output[i*nChannels+1] = outputMatrix[1][i];
     }

@@ -56,9 +56,10 @@ public:
 
     Encoder<Hoa3d, float>::Multi * encoder;
     Decoder<Hoa3d, float>::Binaural * decoder;
+    Optim <Hoa3d, float> * optim;
     
     ofxHoaCoord<Hoa3d, float> * hoaCoord;
-    stk::Clarinet file[numberOfParticles];
+    stk::Clarinet clar[numberOfParticles];
     
     ofxOculusDK2 oculusRift;
     
